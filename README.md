@@ -79,9 +79,7 @@
 
 >* **digit** --> [0-9]
 >* **idigit** --> ([+-] ? [1-9] digit<sup>*</sup>) | [0]
->* **fdigit** --> (([+-] ? [1-9] digit<sup>*</sup>) | [+-] ? [0]) ( \. digit<sup>+</sup> )
-
-
+>* **fdigit** --> [+-] ? digit<sup>+</sup>\.digit<sup>+</sup>
 
 
 
