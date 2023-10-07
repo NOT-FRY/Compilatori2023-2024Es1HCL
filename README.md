@@ -70,6 +70,8 @@
 
 ####  Definizioni regolari identificatori
 
+Gli identificatori del linguaggio sono composti da lettere e non possono iniziare con una cifra o con il carattere undescore '_' .
+
 >* **letter** --> [A-Za-z]
 >* **letter_** --> [A-Za-z_]
 >* **digit** --> [0-9]
