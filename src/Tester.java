@@ -3,7 +3,7 @@ public class Tester {
 
 	public static void main(String[] args) {
 
-		LexicalAnalyzer lexicalAnalyzer = new LexicalAnalyzer();
+		Lexer lexicalAnalyzer = new Lexer();
 		String filePath = "file_input.txt";
 
 		if (lexicalAnalyzer.initialize(filePath)) {
