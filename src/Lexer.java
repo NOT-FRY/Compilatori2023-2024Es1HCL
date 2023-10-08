@@ -1,25 +1,47 @@
-..
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.RandomAccessFile;
+import java.util.HashMap;
+import java.util.logging.Logger;
 
 public class Lexer {
 	
 	private File input;
-	private static .. stringTable;  // la struttura dati potrebbe essere una hash map
+	private static HashMap<String,Token> stringTable;
 	private int state;
-    ..
+
+	private RandomAccessFile fr;
+	private Logger logger;
 
 	public Lexer(){
 		// la symbol table in questo caso la chiamiamo stringTable
-		stringTable = new  ..
+		stringTable = new HashMap<String,Token>();
 		state = 0;
-		stringTable.put("if", new Token("IF"));   // inserimento delle parole chiavi nella stringTable per evitare di scrivere un diagramma di transizione per ciascuna di esse (le parole chiavi verranno "catturate" dal diagramma di transizione e gestite e di conseguenza). IF poteva anche essere associato ad una costante numerica
-        ..
+		stringTable.put("if", new Token("IF"));
+		stringTable.put("then", new Token("THEN"));
+		stringTable.put("else", new Token ("ELSE"));
+		stringTable.put("while", new Token("WHILE"));
+		stringTable.put("int", new Token ("INT"));
+		stringTable.put("float",new Token("FLOAT"));
+
+		logger = Logger.getLogger(this.getClass().getName());
+
+		// inserimento delle parole chiavi nella stringTable per evitare di scrivere un diagramma di transizione per ciascuna di esse (le parole chiavi verranno "catturate" dal diagramma di transizione e gestite e di conseguenza). IF poteva anche essere associato ad una costante numerica
 
 	}
 	
 	public Boolean initialize(String filePath){
-	
+		File input= new File(filePath);
+
+		try  {
+			fr=new RandomAccessFile(input,"r");
+		} catch (FileNotFoundException e) {
+			logger.info(e.getMessage());
+			return false;
+		}
+
+		return true;
 	   // prepara file input per lettura e controlla errori
-	    
 	} 
 	
 	public Token nextToken()throws Exception{
@@ -29,7 +51,6 @@ public class Lexer {
 		state = 0;
 		String lessema = ""; //� il lessema riconosciuto
         char c;
-        ..
 		
 		while(true){
 
@@ -107,6 +128,11 @@ private Token installID(String lessema){
 
 private void retrack(){
 	// fa il retract nel file di un carattere
+		try {
+		fr.seek(fr.getFilePointer()-1);
+		} catch (IOException e) {
+		e.printStackTrace();
+		}
 }
 		
 }
