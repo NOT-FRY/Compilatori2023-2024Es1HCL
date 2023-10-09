@@ -150,90 +150,54 @@ public class Lexer {
 				case 6:
 					if(c=='<'){
 						state = 7;
+					}else if (c=='='){
 						lessema += c;
-					}else {
-						state = 10; //cambio operatore
+						return installOperator(lessema);
+					}else if(c=='>') {
+						stato = 8;
+					} else if (c=="!"){
+						state 10;
 					}
 					break;
 
 				case 7:
-					if(c=='-'){
-						state = 8;
+					if (c=='='){
+						lessema += c;
+						return installOperator(lessema);
+					else if(c=='-'){
+						state = 9;
 						lessema += c;
 					}else {
-						installOperator(lessema);
-						state = 9; //cambio operatore <=;
+						return installOperator(lessema);
 					}
 					break;
-
 				case 8:
+					if(c=='=') {
+						lessema += c;
+						return installOperator(lessema);
+					} else {
+						retrack();
+						return installOperator(lessema);
+					}
+				case 9:
 					if(c=='-'){
 						lessema += c;
-						return installSeparator(lessema);
-					}else {
-						//TODO Lancio errore se trovo un altro carattere che non mi aspettavo ??
-						state = .. //lancia errore;
-					}
-					break;
-				case 9:
-					if(c=='='){
-						lessema += c;
-						return installSeparator(lessema);
-					}else {
-						state = .. //lancia errore;
-					}
-					break;
-				case 10:
-					if(c=='>'){
-						state = 9;
-						lessema += c;
-						if(wasLastCharacter()){
-							return installSeparator(lessema);
-						}
-					}else {
-						state = 11; //cambio operatore;
-					}
-					break;
-				case 11:
-					if(c=='='){
-						state = 9;
-						lessema += c;
-					}else {
-						state = 11; //prossimo automa
-					}
-					break;
-				default: break;
-			}//end switch
-
-			//id
-			switch(state){
-				case 9:
-					if(Character.isLetter(c)){
-						state = 10;
-						lessema += c;
-						// Nel caso in cui il file � terminato ma ho letto qualcosa di valido
-						// devo lanciare il token (altrimenti perderei l'ultimo token, troncato per l'EOF) 
-						if(wasLastCharacter()){
-							return installID(lessema);
-						}
-						break;
-					}
-					state = 12;
-					break;
-					
-				case 10:
-					if(Character.isLetterOrDigit(c)){
-						lessemq += c;
-						if(// controlla se � finito il file)
-							return installID(lessema);
-						break;
+						 return installOperator(lessema);
 					}else{
-						state = 11;
 						retrack();
-						return installID(lessema);
+						retrack();
+						return installOperator(lessema);
 					}
-				default: break;
-			}//end switch
+					break;
+				case 10:
+					if(c=='='){
+						lessema += c;
+						return installSeparator(lessema);
+					}else {
+						return installError();
+					}
+					break;
+
 			
 			//unsigned numbers
 			switch(state){
@@ -379,6 +343,13 @@ private Token installOperator(String lessema){
 	}
 	return null;
 }
+
+		private Token installError(){
+			Token token;
+			token = new Token( "ERROR");
+			stringTable.put("ERROR", token);
+			return token;
+		}
 
 private void retrack(){
 		// fa il retract nel file di un carattere
