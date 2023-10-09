@@ -29,6 +29,7 @@
 |---------------------------------------------------------|----------------|-----------|
 | [Definizione regolare](#definizioni-regolari-letterali) | *IDIGIT*       | -         |
 | [Definizione regolare](#definizioni-regolari-letterali)   | *FDIGIT*       | -         |
+| [Definizione regolare](#definizioni-regolari-letterali)   | *NDIGIT*       | -         |
 
 
 ### Separatori
@@ -81,8 +82,9 @@ Gli identificatori del linguaggio sono composti da lettere e non possono iniziar
 ####  Definizioni regolari letterali
 
 >* **digit** --> [0-9]
->* **idigit** --> ([+-] ? [1-9] digit<sup>*</sup>) | [0]
->* **fdigit** --> [+-] ? digit<sup>+</sup>\.digit<sup>+</sup>
+>* **idigit** --> ([1-9] digit<sup>*</sup>) || 0 
+>* **fdigit** -->  [0-9]<sup>+</sup>\.digit<sup>+</sup>
+>* **ndigit** --> \\(-digit<sup>+</sup>(\.digit<sup>+</sup>)?\\)
 
 
 
