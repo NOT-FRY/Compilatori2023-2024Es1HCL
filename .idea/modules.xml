@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/dilauro-ciancio_es1_hcl.iml" filepath="$PROJECT_DIR$/.idea/dilauro-ciancio_es1_hcl.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dilauro-ciancio_es1_hcl.iml" filepath="$PROJECT_DIR$/dilauro-ciancio_es1_hcl.iml" />
     </modules>
   </component>
 </project>
