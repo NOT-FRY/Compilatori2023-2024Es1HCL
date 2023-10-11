@@ -1,11 +1,11 @@
+import java.io.File;
 
 public class Tester {
 
 	public static void main(String[] args) {
 
 		Lexer lexicalAnalyzer = new Lexer();
-		String filePath = "file_input.txt";
-
+		String filePath = "test_files" + File.separator +"file_input.txt";
 		if (lexicalAnalyzer.initialize(filePath)) {
 
 			Token token;

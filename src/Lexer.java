@@ -85,11 +85,12 @@ public class Lexer {
                         //DO NOTHING (Consuma white spaces)
                         ;
                     else
+                        retrack();
+                        retrack();
                         state = 2;
 
                     break;
                 case 2:
-                    retrack();
                     state = 3;    //prossimo automa id
                     break;
 
@@ -152,14 +153,19 @@ public class Lexer {
             switch (state) {
                 case 6:
                     if (c == '<') {
+                        lessema += c;
                         state = 7;
                     } else if (c == '=') {
                         lessema += c;
                         return installOperator(lessema);
                     } else if (c == '>') {
+                        lessema += c;
                         state = 8;
                     } else if (c == '!') {
+                        lessema += c;
                         state = 10;
+                    }else{
+                        state = 11; //cambio automa
                     }
                     break;
 
@@ -222,6 +228,9 @@ public class Lexer {
                     } else if (c == '/') {
                         lessema += c;
                         return installOperator(lessema);
+                    }
+                    else{
+                        state = 12;
                     }
                     break;
                 default:
