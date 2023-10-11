@@ -145,6 +145,7 @@ public class Lexer {
             }//end switch
 
 
+
             //Operatori
 
             //Il codice non può terminare con uno di questi operatori
@@ -204,19 +205,21 @@ public class Lexer {
                     break;
             }
 
+
+
             //Operatori aritmetici
-            switch(state){
+            switch (state) {
                 case 11:
-                    if ( c == '+'){
+                    if (c == '+') {
                         lessema += c;
                         return installOperator(lessema);
-                    }else if (c== '-'){
+                    } else if (c == '-') {
                         lessema += c;
                         return installOperator(lessema);
-                    }else if (c== '*') {
+                    } else if (c == '*') {
                         lessema += c;
                         return installOperator(lessema);
-                    }else if (c== '/') {
+                    } else if (c == '/') {
                         lessema += c;
                         return installOperator(lessema);
                     }
@@ -225,15 +228,163 @@ public class Lexer {
                     break;
             }
 
+
+
             //Letterali INUMBER
-            //TODO
+            switch (state) {
+                case 12:
+                    if (Character.isDigit(c)) {
+                        state = 13;
+                        lessem += c;
+                        if (wasLastCharacter())
+                            return installInumber(lessema);
+                    } else {
+                        state = 19;//altro automa Fnumber (caso 1.9 o 3<)
+                    }
+                    break;
+                case 13:
+                    if (Character.isDigit(c)) {
+                        state = 13;
+                        lessem += c;
+                        if (wasLastCharacter())
+                            return installInumber(lessema);
+                    } else {
+                        state = 14;
+                    }
+                    break;
+                case 14:
+                    if (c == "E") {
+                        state = 15;
+                    } else {
+                        state = 19;//altro automa Fnumber
+                    }
+                    break;
+                case 15:
+                    if (c == "-" || c == "+") {
+                        state = 16;
+                    } else if (Character.isDigit(c)) {
+                        state = 16;
+                    } else {
+                        state = 99;
+                    }
+                    break;
+                case 16:
+                    if (Character.isDigit(c)) {
+                        state = 16;
+                        lessem += c;
+                        if (wasLastCharacter())
+                            return installInumber(lessema);
+                    } else {
+                        retrack();
+                        return installInumber(lessema);
+                    }
+                    break;
+            }
+
+
+
 
             //Letterali FNUMBER
+            switch (state) {
+                case 19:
+                    if (Character.isDigit(c)) {
+                        state = 20;
+                        lessema += c;
+                    } else {
+                        state = 21;
+                    }
+                    break;
+                case 20:
+                    if (Character.isDigit(c)) {
+                        state = 20;
+                        lessema += c;
+                    } else {
+                        state = 21;
+                    }
+                    break;
+                case 21:
+                    if (c == ".") {
+                        state = 22;
+                        lessem += c;
+                    } else {
+                        retrack();
+                        return installInumber(lessema);//da errore alla seconda iterazione
+                    }
+                    break;
+                case 22:
+                    if (Character.isDigit(c)) {
+                        state = 23;
+                        lessem += c;
+                        if (wasLastCharacter())
+                            return installFnumber(lessema);
+                    } else {
+                        state = 99;
+                    }
+                    break;
+                case 23:
+                    if (Character.isDigit(c)) {
+                        state = 23;
+                        lessem += c;
+                        if (wasLastCharacter())
+                            return installInumber(lessema);
+                    } else {
+                        state = 24;
+                    }
+                    break;
+                case 24:
+                    if (c == "E") {
+                        state = 25;
+                        lessema += c;
+                    } else {
+                        retrack();
+                        return installFnumber(lessema);
+                    }
+                    break;
+                case 25:
+                    if (c == "-" || c == "+") {
+                        state = 26;
+                        lessema += c;
+                    } else if (Character.isDigit(c)) {
+                        state = 26;
+                    } else {
+                        state = 99;
+                    }
+                    break;
+                case 26:
+                    if (Character.isDigit(c)) {
+                        state = 27;
+                        lessem += c;
+                        if (wasLastCharacter())
+                            return installFnumber(lessema);
+                    } else {
+                        state = 99;
+                    }
+                    break;
+                case 27:
+                    if (Character.isDigit(c)) {
+                        state = 27;
+                        lessem += c;
+                        if (wasLastCharacter())
+                            return installFnumber(lessema);
+                    } else {
+                        retrack();
+                        return installFnumber(lessema);
+                    }
+            }
 
-            //TODO
+
+
+            //Errori
+            switch (state) {
+                case 99{
+                    return installErrore();
+                }
+                break;
+            }
+
         }//end while
-    }//end method
 
+    }//end method
 
 
     private Token installID(String lessema) {
@@ -359,6 +510,32 @@ public class Lexer {
 
         }
         return null;
+    }
+
+    private Token installInumber(String lessema) {
+        Token token;
+
+        //utilizzo come chiave della hashmap il lessema
+        if (stringTable.containsKey(lessema))
+            return stringTable.get(lessema);
+        else {
+            token = new Token("INUMBER", lessema);
+            stringTable.put(lessema, token);
+            return token;
+        }
+    }
+
+    private Token installFnumber(String lessema) {
+        Token token;
+
+        //utilizzo come chiave della hashmap il lessema
+        if (stringTable.containsKey(lessema))
+            return stringTable.get(lessema);
+        else {
+            token = new Token("FNUMBER", lessema);
+            stringTable.put(lessema, token);
+            return token;
+        }
     }
 
     private Token installError() {

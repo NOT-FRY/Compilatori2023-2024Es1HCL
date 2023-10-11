@@ -84,8 +84,8 @@
 
 >* **digit** --> [0-9]
 >* **digits** --> digit<sup>+</sup>
->* **inumber** --> [1-9]digit<sup>*</sup>
->* **fnumber** --> inumber.digits
+>* **inumber** --> [1-9]digit<sup>*</sup>(E[-+]?digits)?
+>* **fnumber** --> inumber.digits(E[-+]?digits)?
 
 
 
