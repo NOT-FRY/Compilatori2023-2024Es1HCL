@@ -200,7 +200,12 @@ public class Lexer {
                     } else {
                         return installError();
                     }
+                default:
+                    break;
+            }
 
+            //Operatori aritmetici
+            switch(state){
                 case 11:
                     if ( c == '+'){
                         lessema += c;
@@ -216,10 +221,19 @@ public class Lexer {
                         return installOperator(lessema);
                     }
                     break;
+                default:
+                    break;
             }
-        }
-    }//end while
-    //end method
+
+            //Letterali INUMBER
+            //TODO
+
+            //Letterali FNUMBER
+
+            //TODO
+        }//end while
+    }//end method
+
 
 
     private Token installID(String lessema) {

@@ -27,8 +27,8 @@
 ### Letterali
 | Lessema                                                 | Nome del token | Attributo |
 |---------------------------------------------------------|----------------|-----------|
-| [Definizione regolare](#definizioni-regolari-letterali) | *IDIGIT*       | -         |
-| [Definizione regolare](#definizioni-regolari-letterali)   | *FDIGIT*       | -         |
+| [Definizione regolare](#definizioni-regolari-letterali) | *INUMBER*      | -         |
+| [Definizione regolare](#definizioni-regolari-letterali)   | *FNUMBER*      | -         |
 
 
 ### Separatori
@@ -44,6 +44,8 @@
 
 
 ### Operatori
+❗ Il codice sorgente nel linguaggio definito, non può terminare con uno dei seguenti operatori
+
 | Lessema | Nome del token | Attributo |
 |---------|----------------|-----------|
 | <--     | *ASS*          | -         |
@@ -71,7 +73,7 @@
 
 ####  Definizioni regolari identificatori
 
-Gli identificatori del linguaggio sono composti da lettere e non possono iniziare con una cifra o con il carattere undescore '_' .
+❗ Gli identificatori del linguaggio sono composti da lettere e non possono iniziare con una cifra o con il carattere undescore '_' .
 
 >* **letter** --> [A-Za-z]
 >* **letter_** --> [A-Za-z_]
@@ -81,8 +83,9 @@ Gli identificatori del linguaggio sono composti da lettere e non possono iniziar
 ####  Definizioni regolari letterali
 
 >* **digit** --> [0-9]
->* **idigit** --> ([+-] ? [1-9] digit<sup>*</sup>) | [0]
->* **fdigit** --> [+-] ? digit<sup>+</sup>\.digit<sup>+</sup>
+>* **digits** --> digit<sup>+</sup>
+>* **inumber** --> [1-9]digit<sup>*</sup>
+>* **fnumber** --> inumber.digits
 
 
 
