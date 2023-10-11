@@ -235,7 +235,7 @@ public class Lexer {
                 case 12:
                     if (Character.isDigit(c)) {
                         state = 13;
-                        lessem += c;
+                        lessema += c;
                         if (wasLastCharacter())
                             return installInumber(lessema);
                     } else {
@@ -245,7 +245,7 @@ public class Lexer {
                 case 13:
                     if (Character.isDigit(c)) {
                         state = 13;
-                        lessem += c;
+                        lessema += c;
                         if (wasLastCharacter())
                             return installInumber(lessema);
                     } else {
@@ -253,14 +253,14 @@ public class Lexer {
                     }
                     break;
                 case 14:
-                    if (c == "E") {
+                    if (c == 'E') {
                         state = 15;
                     } else {
                         state = 19;//altro automa Fnumber
                     }
                     break;
                 case 15:
-                    if (c == "-" || c == "+") {
+                    if (c == '-' || c == '+') {
                         state = 16;
                     } else if (Character.isDigit(c)) {
                         state = 16;
@@ -271,7 +271,7 @@ public class Lexer {
                 case 16:
                     if (Character.isDigit(c)) {
                         state = 16;
-                        lessem += c;
+                        lessema += c;
                         if (wasLastCharacter())
                             return installInumber(lessema);
                     } else {
@@ -303,9 +303,9 @@ public class Lexer {
                     }
                     break;
                 case 21:
-                    if (c == ".") {
+                    if (c == '.') {
                         state = 22;
-                        lessem += c;
+                        lessema += c;
                     } else {
                         retrack();
                         return installInumber(lessema);//da errore alla seconda iterazione
@@ -314,7 +314,7 @@ public class Lexer {
                 case 22:
                     if (Character.isDigit(c)) {
                         state = 23;
-                        lessem += c;
+                        lessema += c;
                         if (wasLastCharacter())
                             return installFnumber(lessema);
                     } else {
@@ -324,7 +324,7 @@ public class Lexer {
                 case 23:
                     if (Character.isDigit(c)) {
                         state = 23;
-                        lessem += c;
+                        lessema += c;
                         if (wasLastCharacter())
                             return installInumber(lessema);
                     } else {
@@ -332,7 +332,7 @@ public class Lexer {
                     }
                     break;
                 case 24:
-                    if (c == "E") {
+                    if (c == 'E') {
                         state = 25;
                         lessema += c;
                     } else {
@@ -341,7 +341,7 @@ public class Lexer {
                     }
                     break;
                 case 25:
-                    if (c == "-" || c == "+") {
+                    if (c == '-' || c == '+') {
                         state = 26;
                         lessema += c;
                     } else if (Character.isDigit(c)) {
@@ -353,7 +353,7 @@ public class Lexer {
                 case 26:
                     if (Character.isDigit(c)) {
                         state = 27;
-                        lessem += c;
+                        lessema += c;
                         if (wasLastCharacter())
                             return installFnumber(lessema);
                     } else {
@@ -363,7 +363,7 @@ public class Lexer {
                 case 27:
                     if (Character.isDigit(c)) {
                         state = 27;
-                        lessem += c;
+                        lessema += c;
                         if (wasLastCharacter())
                             return installFnumber(lessema);
                     } else {
@@ -376,10 +376,10 @@ public class Lexer {
 
             //Errori
             switch (state) {
-                case 99{
-                    return installErrore();
-                }
-                break;
+                case 99:
+                    return installError();
+                default:
+                    break;
             }
 
         }//end while
