@@ -44,7 +44,6 @@
 
 
 ### Operatori
-❗ Il codice sorgente nel linguaggio definito, non può terminare con uno dei seguenti operatori
 
 | Lessema | Nome del token | Attributo |
 |---------|----------------|-----------|

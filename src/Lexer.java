@@ -155,12 +155,16 @@ public class Lexer {
                     if (c == '<') {
                         lessema += c;
                         state = 7;
+                        if(wasLastCharacter())
+                            return installOperator(lessema);
                     } else if (c == '=') {
                         lessema += c;
                         return installOperator(lessema);
                     } else if (c == '>') {
                         lessema += c;
                         state = 8;
+                        if(wasLastCharacter())
+                            return installOperator(lessema);
                     } else if (c == '!') {
                         lessema += c;
                         state = 10;
@@ -250,7 +254,7 @@ public class Lexer {
                             return installInumber(lessema);
                     } else {
                         retrack();
-                        state = 19;//altro automa Fnumber (caso 1.9 o 3<)
+                        state = 99;//altro automa Fnumber (caso 1.9 o 3<)
                     }
                     break;
                 case 13:
@@ -265,33 +269,13 @@ public class Lexer {
                     }
                     break;
                 case 14:
-                    if (c == 'E') {
-                        state = 15;
-                    } else if(c == '.'){
+                    if(c == '.'){
+                        if(wasLastCharacter())
+                            return installError();
                         lessema+=c;
                         state = 22;//altro automa Fnumber
                     }
                     else{
-                        retrack();
-                        return installInumber(lessema);
-                    }
-                    break;
-                case 15:
-                    if (c == '-' || c == '+') {
-                        state = 16;
-                    } else if (Character.isDigit(c)) {
-                        state = 16;
-                    } else {
-                        state = 99;
-                    }
-                    break;
-                case 16:
-                    if (Character.isDigit(c)) {
-                        state = 16;
-                        lessema += c;
-                        if (wasLastCharacter())
-                            return installInumber(lessema);
-                    } else {
                         retrack();
                         return installInumber(lessema);
                     }
@@ -335,8 +319,12 @@ public class Lexer {
                         lessema += c;
                         if (wasLastCharacter())
                             return installFnumber(lessema);
-                    } else {
-                        state = 24;
+                    } else
+                    if(c == '.'){
+                        state=23;
+                    }
+                    else {
+                       return installError();
                     }
                     break;
                 case 23:
@@ -344,54 +332,13 @@ public class Lexer {
                         state = 23;
                         lessema += c;
                         if (wasLastCharacter())
-                            return installInumber(lessema);
-                    } else {
-                        retrack();
-                        state = 24;
-                    }
-                    break;
-                case 24:
-                    if (c == 'E') {
-                        state = 25;
-                        lessema += c;
-                    } else {
-                        retrack();
-                        state = 26;
-                    }
-                    break;
-                case 25:
-                    if (c == '-' || c == '+') {
-                        state = 26;
-                        lessema += c;
-                    } else if (Character.isDigit(c)) {
-                        state = 26;
-                    } else {
-                        state = 99;
-                    }
-                    break;
-                case 26:
-                    if (Character.isDigit(c)) {
-                        state = 27;
-                        lessema += c;
-                        if (wasLastCharacter())
-                            return installFnumber(lessema);
-                    } else {
-                        state = 99;
-                    }
-                    break;
-                case 27:
-                    if (Character.isDigit(c)) {
-                        state = 27;
-                        lessema += c;
-                        if (wasLastCharacter())
                             return installFnumber(lessema);
                     } else {
                         retrack();
                         return installFnumber(lessema);
                     }
+                    break;
             }
-
-
 
             //Errori
             switch (state) {
