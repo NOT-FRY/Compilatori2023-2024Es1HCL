@@ -83,8 +83,8 @@
 
 >* **digit** --> [0-9]
 >* **digits** --> digit<sup>+</sup>
->* **inumber** --> [1-9]digit<sup>*</sup>(E[-+]?digits)?
->* **fnumber** --> inumber.digits(E[-+]?digits)?
+>* **inumber** --> [1-9]digit<sup>*</sup>
+>* **fnumber** --> inumber.digits
 
 
 ❗Se viene trovato un letterale INUMBER che inizia con il digit '0', viene tokenizzato 0 separatamente.
@@ -98,25 +98,25 @@ infatti è possibile inserire 0.0 , che verrà identificato come FNUMBER.
 ##Diagrammi di transizione
 
 **Delimitatori**
-![Delimitatori](res\Delimitatori.png)
+<img alt="Delimitatori" src="./res/Delimitatori.png"/>
 
 **ID**
-![Id](res\Id.png)
+<img alt="Id" src="./res/Id.png"/>
 
 **INUMBER**
-![Inumber](res\Inumber.png)
+<img alt="Inumber" src="./res/Inumber.png"/>
 
 **FNUMBER**
-![FNumber](res\Fnumber.png)
+<img alt="FNumber" src="./res/Fnumber.png"/>
 
 **Operatori Aritmetici**
-![Operatori Aritmetici](res\operatori_aritmetici.png)
+<img alt="Operatori Aritmetici" src="./res/operatori_aritmetici.png"/>
 
 **Operatori**
-![Operatori](res\operator.png)
+<img alt="Operatori" src="./res/operator.png"/>
 
 **Separatori**
-![Separatori](res\separatori.png)
+<img alt="Separatori" src="./res/separatori.png"/>
 
 
 
