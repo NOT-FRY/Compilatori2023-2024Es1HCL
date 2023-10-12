@@ -1,0 +1,10 @@
+int main (){
+    if(x<=3)
+    then
+        test <--4;
+    else
+        test <--45.83;
+
+    test <-- 03;
+    test <-- 0.004;
+}
