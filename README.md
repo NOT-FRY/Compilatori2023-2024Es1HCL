@@ -87,6 +87,18 @@
 >* **fnumber** --> inumber.digits(E[-+]?digits)?
 
 
+❗Se viene trovato un letterale INUMBER che inizia con il digit '0', viene tokenizzato 0 separatamente.
+Es:
+045 --> (INUMBER, "0") & (INUMBER, "45")
+
+❗Per gli FNUMBER invece, il token '0' non viene separato, ma questo controllo viene effettuato come se fosse un digit normale,
+infatti è possibile inserire 0.0 , che verrà identificato come FNUMBER.
+
+
+##Diagrammi di transizione
+
+
+
 
     
 

@@ -51,6 +51,7 @@ public class Lexer {
         String lessema = ""; // il lessema riconosciuto
         char c;
         int data;
+        boolean hasFoundIntegerZero = false;
 
         while (true) {
 
@@ -245,7 +246,12 @@ public class Lexer {
             //INUMBER
             switch(state){
                 case 12:
-                    if (Character.isDigit(c)) {
+                    if(c=='0'){
+                        lessema += c;
+                        //devo controllare se è 0.digit;
+                        state = 14;
+                    }
+                    else if (Character.isDigit(c)) {
                         state = 13;
                         lessema += c;
                         if (wasLastCharacter())
@@ -270,6 +276,7 @@ public class Lexer {
             }
 
 
+
             //FNUMBER
             switch (state){
                 case 14:
@@ -277,7 +284,14 @@ public class Lexer {
                         if(wasLastCharacter())
                             return installError();
                         lessema+=c;
-                        state = 15;//altro automa Fnumber
+                        state = 15;
+                    }else if(hasFoundIntegerZero){
+                        //è uno zero ma non è float, installo INUMBER
+                        retrack();
+                        return installInumber(lessema);
+                    }else if(c == '0'){
+                        state=14;
+                        hasFoundIntegerZero = true;
                     }else{
                         state = 99;
                     }
