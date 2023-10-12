@@ -241,6 +241,7 @@ public class Lexer {
 
             //Letterali INUMBER
             switch (state) {
+
                 case 12:
                     if (Character.isDigit(c)) {
                         state = 13;
@@ -248,6 +249,7 @@ public class Lexer {
                         if (wasLastCharacter())
                             return installInumber(lessema);
                     } else {
+                        retrack();
                         state = 19;//altro automa Fnumber (caso 1.9 o 3<)
                     }
                     break;
@@ -258,14 +260,20 @@ public class Lexer {
                         if (wasLastCharacter())
                             return installInumber(lessema);
                     } else {
+                        retrack();
                         state = 14;
                     }
                     break;
                 case 14:
                     if (c == 'E') {
                         state = 15;
-                    } else {
-                        state = 19;//altro automa Fnumber
+                    } else if(c == '.'){
+                        lessema+=c;
+                        state = 22;//altro automa Fnumber
+                    }
+                    else{
+                        retrack();
+                        return installInumber(lessema);
                     }
                     break;
                 case 15:
@@ -300,7 +308,7 @@ public class Lexer {
                         state = 20;
                         lessema += c;
                     } else {
-                        state = 21;
+                        state = 99;
                     }
                     break;
                 case 20:
@@ -308,6 +316,7 @@ public class Lexer {
                         state = 20;
                         lessema += c;
                     } else {
+                        retrack();
                         state = 21;
                     }
                     break;
@@ -316,7 +325,7 @@ public class Lexer {
                         state = 22;
                         lessema += c;
                     } else {
-                        retrack();
+                        //già ho fatto prima le retract
                         return installInumber(lessema);//da errore alla seconda iterazione
                     }
                     break;
