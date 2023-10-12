@@ -242,10 +242,8 @@ public class Lexer {
             }
 
 
-
-            //Letterali INUMBER
-            switch (state) {
-
+            //INUMBER
+            switch(state){
                 case 12:
                     if (Character.isDigit(c)) {
                         state = 13;
@@ -253,8 +251,7 @@ public class Lexer {
                         if (wasLastCharacter())
                             return installInumber(lessema);
                     } else {
-                        retrack();
-                        state = 99;//altro automa Fnumber (caso 1.9 o 3<)
+                        state = 99;
                     }
                     break;
                 case 13:
@@ -263,19 +260,9 @@ public class Lexer {
                         lessema += c;
                         if (wasLastCharacter())
                             return installInumber(lessema);
-                    } else {
-                        retrack();
-                        state = 14;
-                    }
-                    break;
-                case 14:
-                    if(c == '.'){
-                        if(wasLastCharacter())
-                            return installError();
-                        lessema+=c;
-                        state = 22;//altro automa Fnumber
-                    }
-                    else{
+                    } else if(c == '.'){
+                        state = 14; //Prossimo automa FNumber
+                    }else{
                         retrack();
                         return installInumber(lessema);
                     }
@@ -283,57 +270,35 @@ public class Lexer {
             }
 
 
-
-
-            //Letterali FNUMBER
-            switch (state) {
-                case 19:
-                    if (Character.isDigit(c)) {
-                        state = 20;
-                        lessema += c;
-                    } else {
+            //FNUMBER
+            switch (state){
+                case 14:
+                    if(c == '.'){
+                        if(wasLastCharacter())
+                            return installError();
+                        lessema+=c;
+                        state = 15;//altro automa Fnumber
+                    }else{
                         state = 99;
                     }
                     break;
-                case 20:
+                case 15:
                     if (Character.isDigit(c)) {
-                        state = 20;
-                        lessema += c;
-                    } else {
-                        retrack();
-                        state = 21;
-                    }
-                    break;
-                case 21:
-                    if (c == '.') {
-                        state = 22;
-                        lessema += c;
-                    } else {
-                        //già ho fatto prima le retract
-                        return installInumber(lessema);//da errore alla seconda iterazione
-                    }
-                    break;
-                case 22:
-                    if (Character.isDigit(c)) {
-                        state = 23;
+                        state = 16;
                         lessema += c;
                         if (wasLastCharacter())
                             return installFnumber(lessema);
-                    } else
-                    if(c == '.'){
-                        state=23;
-                    }
-                    else {
-                       return installError();
+                    }else{
+                        return  installError();
                     }
                     break;
-                case 23:
+                case 16:
                     if (Character.isDigit(c)) {
-                        state = 23;
+                        state = 16;
                         lessema += c;
                         if (wasLastCharacter())
                             return installFnumber(lessema);
-                    } else {
+                    }else{
                         retrack();
                         return installFnumber(lessema);
                     }
