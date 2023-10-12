@@ -97,6 +97,26 @@ infatti è possibile inserire 0.0 , che verrà identificato come FNUMBER.
 
 ##Diagrammi di transizione
 
+**Delimitatori**
+![Delimitatori](res\Delimitatori.png)
+
+**ID**
+![Id](res\Id.png)
+
+**INUMBER**
+![Inumber](res\Inumber.png)
+
+**FNUMBER**
+![FNumber](res\Fnumber.png)
+
+**Operatori Aritmetici**
+![Operatori Aritmetici](res\operatori_aritmetici.png)
+
+**Operatori**
+![Operatori](res\operator.png)
+
+**Separatori**
+![Separatori](res\separatori.png)
 
 
 
