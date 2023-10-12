@@ -85,11 +85,12 @@ public class Lexer {
                         //DO NOTHING (Consuma white spaces)
                         ;
                     else
+                        retrack();
+                        retrack();
                         state = 2;
 
                     break;
                 case 2:
-                    retrack();
                     state = 3;    //prossimo automa id
                     break;
 
@@ -152,14 +153,19 @@ public class Lexer {
             switch (state) {
                 case 6:
                     if (c == '<') {
+                        lessema += c;
                         state = 7;
                     } else if (c == '=') {
                         lessema += c;
                         return installOperator(lessema);
                     } else if (c == '>') {
+                        lessema += c;
                         state = 8;
                     } else if (c == '!') {
+                        lessema += c;
                         state = 10;
+                    }else{
+                        state = 11; //cambio automa
                     }
                     break;
 
@@ -223,6 +229,9 @@ public class Lexer {
                         lessema += c;
                         return installOperator(lessema);
                     }
+                    else{
+                        state = 12;
+                    }
                     break;
                 default:
                     break;
@@ -232,6 +241,7 @@ public class Lexer {
 
             //Letterali INUMBER
             switch (state) {
+
                 case 12:
                     if (Character.isDigit(c)) {
                         state = 13;
@@ -239,6 +249,7 @@ public class Lexer {
                         if (wasLastCharacter())
                             return installInumber(lessema);
                     } else {
+                        retrack();
                         state = 19;//altro automa Fnumber (caso 1.9 o 3<)
                     }
                     break;
@@ -249,14 +260,20 @@ public class Lexer {
                         if (wasLastCharacter())
                             return installInumber(lessema);
                     } else {
+                        retrack();
                         state = 14;
                     }
                     break;
                 case 14:
                     if (c == 'E') {
                         state = 15;
-                    } else {
-                        state = 19;//altro automa Fnumber
+                    } else if(c == '.'){
+                        lessema+=c;
+                        state = 22;//altro automa Fnumber
+                    }
+                    else{
+                        retrack();
+                        return installInumber(lessema);
                     }
                     break;
                 case 15:
@@ -291,7 +308,7 @@ public class Lexer {
                         state = 20;
                         lessema += c;
                     } else {
-                        state = 21;
+                        state = 99;
                     }
                     break;
                 case 20:
@@ -299,6 +316,7 @@ public class Lexer {
                         state = 20;
                         lessema += c;
                     } else {
+                        retrack();
                         state = 21;
                     }
                     break;
@@ -307,7 +325,7 @@ public class Lexer {
                         state = 22;
                         lessema += c;
                     } else {
-                        retrack();
+                        //già ho fatto prima le retract
                         return installInumber(lessema);//da errore alla seconda iterazione
                     }
                     break;
