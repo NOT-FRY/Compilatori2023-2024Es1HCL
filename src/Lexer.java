@@ -74,12 +74,12 @@ public class Lexer {
                 case 0:
 
                     if (Character.isWhitespace(c)) {
-                        state = 1;
+                        state = 0;
                     } else
                         state = 3; //prossimo automa id
 
                     break;
-                case 1:
+                /*case 1:
 
                     if (Character.isWhitespace(c))
                         //DO NOTHING (Consuma white spaces)
@@ -95,7 +95,7 @@ public class Lexer {
                     break;
 
                 default:
-                    break;
+                    break;*/
             }
 
             //id
@@ -336,7 +336,7 @@ public class Lexer {
                         if (wasLastCharacter())
                             return installFnumber(lessema);
                     } else {
-                        state = 99;
+                        state = 24;
                     }
                     break;
                 case 23:
@@ -346,6 +346,7 @@ public class Lexer {
                         if (wasLastCharacter())
                             return installInumber(lessema);
                     } else {
+                        retrack();
                         state = 24;
                     }
                     break;
@@ -355,7 +356,7 @@ public class Lexer {
                         lessema += c;
                     } else {
                         retrack();
-                        return installFnumber(lessema);
+                        state = 26;
                     }
                     break;
                 case 25:
@@ -500,7 +501,7 @@ public class Lexer {
                 stringTable.put(lessema, token);
                 return token;
             }
-            if (lessema.equals("==")) {
+            if (lessema.equals("=")) {
                 token = new Token("EQ");
                 stringTable.put(lessema, token);
                 return token;
